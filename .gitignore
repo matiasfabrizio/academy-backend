@@ -1,0 +1,49 @@
+### VS Code ###
+.vscode/
+
+### Secrets ###
+.env
+
+### Compiled output ###
+target/
+build/
+*.class
+*.jar
+*.war
+*.ear
+
+### Log files ###
+*.log
+logs/
+
+### Maven ###
+# The wrapper jar is binary and should be ignored
+.mvn/wrapper/maven-wrapper.jar
+
+### IDEs ###
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# STS / Eclipse
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings/
+.springBeans
+.sts4-cache
+
+# NetBeans
+nbproject/private/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+### OS generated files ###
+.DS_Store
+Thumbs.db

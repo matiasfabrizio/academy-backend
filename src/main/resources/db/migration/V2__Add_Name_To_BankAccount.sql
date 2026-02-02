@@ -1,0 +1,2 @@
+ALTER TABLE bank_account
+    ADD COLUMN name VARCHAR(20) NOT NULL;
