@@ -13,5 +13,6 @@ public record ScheduleResDto(
         LocalTime endTime,
         Mode mode,
         int capacity,
-        String classroom
+        String classroom,
+        int classNumber
 ) {}
