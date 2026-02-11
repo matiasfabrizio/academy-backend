@@ -2,6 +2,7 @@ package com.matriz.backend.modules.courses;
 
 import com.matriz.backend.modules.courses.dto.CourseReqDto;
 import com.matriz.backend.modules.courses.dto.CourseResDto;
+import com.matriz.backend.shared.CourseType;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
@@ -28,9 +29,12 @@ public class CourseController {
     }
 
     @GetMapping
-    @Operation(summary = "List all courses", description = "Returns all courses from database.")
-    public ResponseEntity<Set<CourseResDto>> getAllCourses() {
-        return ResponseEntity.ok(courseService.getAllCourses());
+    @Operation(summary = "List all courses by type.", description = "List all courses by CourseType (Refuerzo, PRE, etc).")
+    public ResponseEntity<Set<CourseResDto>> getAllCoursesByCourseType(@RequestParam(required = false) CourseType courseType) {
+        if (courseType == null) {
+            return ResponseEntity.ok(courseService.getAllCourses());
+        }
+        return ResponseEntity.ok(courseService.getAllCoursesByCourseType(courseType));
     }
 
     @GetMapping("/{id}")
