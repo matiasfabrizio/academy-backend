@@ -1,5 +1,6 @@
+name: matriz-dev-project
 services:
-  matriz_db:
+  only_db:
     image: 'postgres:16'
     environment:
       - 'POSTGRES_DB=${DB_NAME}'
@@ -7,5 +8,7 @@ services:
       - 'POSTGRES_USER=${DB_USER}'
     ports:
       - '5432:5432'
+    env_file:
+      - .env
     labels:
       org.springframework.boot.service-connection: postgres
