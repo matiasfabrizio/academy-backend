@@ -43,6 +43,12 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourseById(id));
     }
 
+    @GetMapping("/code/{code}")
+    @Operation(summary = "Fetch a course by its code.")
+    public ResponseEntity<CourseResDto> getCourseByCode(@PathVariable String code) {
+        return ResponseEntity.ok(courseService.getCourseByCode(code));
+    }
+
     @PutMapping("/{id}")
     @Operation(summary = "Update a specific course", description = "Updates the course with the specified ID.")
     public ResponseEntity<CourseResDto> updateCourseById(@RequestBody @Valid CourseReqDto updatedCourse, @PathVariable UUID id) {

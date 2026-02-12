@@ -59,6 +59,12 @@ public class CourseService {
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));
     }
 
+    public CourseResDto getCourseByCode(String code) {
+        return courseRepo.findByCode(code)
+                .map(courseMapper::toResDto)
+                .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con código: " + code));
+    }
+
     public CourseResDto updateCourseById(CourseReqDto reqDto, UUID id) {
         Course courseToUpdate = courseRepo.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));
