@@ -71,7 +71,6 @@ public class CourseServiceTest {
                 null,
                 null,
                 null,
-                null,
                 null));
 
         // Act
