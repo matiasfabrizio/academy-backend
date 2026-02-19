@@ -1,5 +1,6 @@
 package com.matriz.backend.modules.courses.dto;
 
+import com.matriz.backend.modules.professor.dto.ProfessorResDto;
 import com.matriz.backend.modules.schedules.dto.ScheduleResDto;
 import com.matriz.backend.shared.CourseType;
 import com.matriz.backend.shared.Tag;
@@ -18,7 +19,7 @@ public record CourseResDto(
         String photoUrl,
         CourseType type,
         String description,
-        String professor,
+        ProfessorResDto professor,
         BigDecimal price,
         UUID holderId,
         Set<ScheduleResDto> schedules,

@@ -4,6 +4,7 @@ import com.matriz.backend.modules.schedules.dto.ScheduleReqDto;
 import com.matriz.backend.shared.CourseType;
 import com.matriz.backend.shared.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -42,13 +43,18 @@ public record CourseReqDto(
    @Schema(example = "PRE", description = "Allowed types: PRE, REFUERZO, ADMISION, ESCOLAR")
    CourseType type,
 
+   @NotBlank(message = "El código es obligatorio (para la URL)")
+   @Schema(example = "MATE1", description = "Assigns the code of the course (will be displayed in URL).")
+   String code,
+
    /* Optional fields */
 
+   @Column(length = 650)
    @Schema(example = "This is a test course. Add more information.", description = "Description of the course.")
    String description,
 
-   @Schema(example = "Rubén Prado", description = "Names the professor in charge of the course.")
-   String professor,
+   @Schema(description = "UUID of the professor teaching the course.", example = "b1eebc99-9c0b-4ef8-bb6d-6bb9bd380a12")
+   UUID professorId,
 
    @Schema(example = "1400.00", description = "Lists the price of the course (if applicable).")
    BigDecimal price,
@@ -59,16 +65,9 @@ public record CourseReqDto(
    @Schema(description = "List of schedules that will be assigned to the course.")
    List<ScheduleReqDto> schedules,
 
-   /* Refuerzo */
-
-   @Schema(example = "MATE1", description = "Assigns the code of the course (will be displayed in URL).")
-   String code,
-
    @Schema(example = "MATH", description = "Allowed types: MATH, STATISTICS, INFORMATICS, LANGUAGE, ECONOMY")
    Tag tag,
    
-   /* Text fields */
-
    @Schema(example = "Materiales", description = "Used as a subtitle for the course. Add additional info in the textList.")
    String subtitle,
 

@@ -2,6 +2,7 @@ package com.matriz.backend.modules.courses;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.matriz.backend.modules.professor.Professor;
 import com.matriz.backend.modules.finance.holder.Holder;
 import com.matriz.backend.modules.schedules.Schedule;
 import com.matriz.backend.shared.CourseType;
@@ -56,7 +57,10 @@ public class Course {
 
     private String description;
 
-    private String professor;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "professor_id")
+    @JsonBackReference("professor-courses")
+    private Professor professor;
 
     @Column(precision = 10, scale = 2)
     private BigDecimal price;
