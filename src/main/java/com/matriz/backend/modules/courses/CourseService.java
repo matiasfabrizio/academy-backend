@@ -3,8 +3,13 @@ package com.matriz.backend.modules.courses;
 import com.matriz.backend.modules.courses.dto.CourseReqDto;
 import com.matriz.backend.modules.courses.dto.CourseResDto;
 import com.matriz.backend.modules.courses.dto.CourseMapper;
+import com.matriz.backend.modules.exceptions.HolderNotFoundException;
 import com.matriz.backend.modules.exceptions.CourseNotFoundException;
+import com.matriz.backend.modules.exceptions.ProfessorNotFoundException;
+import com.matriz.backend.modules.finance.holder.Holder;
 import com.matriz.backend.modules.finance.holder.HolderRepository;
+import com.matriz.backend.modules.professor.Professor;
+import com.matriz.backend.modules.professor.ProfessorRepository;
 import com.matriz.backend.modules.schedules.Schedule;
 import com.matriz.backend.modules.schedules.dto.ScheduleMapper;
 import com.matriz.backend.shared.CourseType;
@@ -22,14 +27,23 @@ import java.util.stream.Collectors;
 public class CourseService {
     private final CourseRepository courseRepo;
     private final HolderRepository holderRepo;
+    private final ProfessorRepository professorRepo;
     private final CourseMapper courseMapper;
     private final ScheduleMapper scheduleMapper;
     
     public CourseResDto createCourse(CourseReqDto reqDto) {
         Course courseEntity = courseMapper.toEntity(reqDto);
 
+        if (reqDto.professorId() != null) {
+            Professor professor = professorRepo.findById(reqDto.professorId())
+                    .orElseThrow(() -> new ProfessorNotFoundException("Professor not found with id: " + reqDto.professorId()));
+            courseEntity.setProfessor(professor);
+        }
+
         if (reqDto.holderId() != null) {
-            courseEntity.setHolder(holderRepo.getReferenceById(reqDto.holderId()));
+            Holder holder = holderRepo.findById(reqDto.holderId())
+                    .orElseThrow(() -> new HolderNotFoundException("Holder not found with id: " + reqDto.holderId()));
+            courseEntity.setHolder(holder);
         }
 
         if (courseEntity.getSchedules() != null) {
@@ -54,6 +68,9 @@ public class CourseService {
     }
 
     public CourseResDto getCourseById(UUID id) {
+        Course course = courseRepo.findById(id).orElseThrow();
+        System.out.println(course.getProfessor().getName());
+
         return courseRepo.findById(id)
                 .map(courseMapper::toResDto)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));
@@ -69,27 +86,42 @@ public class CourseService {
         Course courseToUpdate = courseRepo.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));
 
+        // Set course fields
         courseToUpdate.setName(reqDto.name());
         courseToUpdate.setStartDate(reqDto.startDate());
         courseToUpdate.setEndDate(reqDto.endDate());
         courseToUpdate.setPhotoUrl(reqDto.photoUrl());
         courseToUpdate.setType(reqDto.type());
         courseToUpdate.setDescription(reqDto.description());
-        courseToUpdate.setProfessor(reqDto.professor());
         courseToUpdate.setPrice(reqDto.price());
         courseToUpdate.setCode(reqDto.code());
         courseToUpdate.setTag(reqDto.tag());
         courseToUpdate.setSubtitle(reqDto.subtitle());
         courseToUpdate.setTextList(reqDto.textList());
 
+        // Set Professor
+        if (reqDto.professorId() != null) {
+            if (courseToUpdate.getProfessor() == null || !courseToUpdate.getProfessor().getId().equals(reqDto.professorId())) {
+                Professor professor = professorRepo.findById(reqDto.professorId())
+                        .orElseThrow(() -> new ProfessorNotFoundException("Professor not found with id: " + reqDto.professorId()));
+                courseToUpdate.setProfessor(professor);
+            }
+        } else {
+            courseToUpdate.setProfessor(null);
+        }
+
+        // Set Holder
         if (reqDto.holderId() != null) {
             if (courseToUpdate.getHolder() == null || !courseToUpdate.getHolder().getId().equals(reqDto.holderId())) {
-                courseToUpdate.setHolder(holderRepo.getReferenceById(reqDto.holderId()));
+                Holder holder = holderRepo.findById(reqDto.holderId())
+                        .orElseThrow(() -> new HolderNotFoundException("Holder not found with id: " + reqDto.holderId()));
+                courseToUpdate.setHolder(holder);
             }
         } else {
             courseToUpdate.setHolder(null);
         }
 
+        // Set Schedules
         if (reqDto.schedules() != null) {
             courseToUpdate.getSchedules().clear();
             reqDto.schedules().forEach(schedule -> {
