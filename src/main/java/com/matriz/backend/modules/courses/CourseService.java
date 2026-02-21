@@ -68,6 +68,9 @@ public class CourseService {
     }
 
     public CourseResDto getCourseById(UUID id) {
+        Course course = courseRepo.findById(id).orElseThrow();
+        System.out.println(course.getProfessor().getName());
+
         return courseRepo.findById(id)
                 .map(courseMapper::toResDto)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));

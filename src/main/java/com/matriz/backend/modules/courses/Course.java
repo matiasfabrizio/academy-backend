@@ -53,6 +53,9 @@ public class Course {
     @Enumerated(EnumType.STRING)
     private CourseType type;
 
+    @Column(nullable = false)
+    private String code;
+
     /* Optional fields */
 
     private String description;
@@ -74,9 +77,6 @@ public class Course {
     @JsonManagedReference("course-schedules")
     private Set<Schedule> schedules = new LinkedHashSet<>();
 
-    /* Refuerzo */
-
-    private String code;
 
     @Enumerated(EnumType.STRING)
     private Tag tag;

@@ -1,0 +1,2 @@
+ALTER TABLE course
+    ALTER COLUMN code SET NOT NULL;

@@ -31,6 +31,8 @@ public class Professor {
     @Column(nullable = false)
     private String photoUrl;
 
+    private String description;
+
     @OneToMany(mappedBy = "professor")
     @JsonManagedReference("professor-courses")
     private Set<Course> courses = new LinkedHashSet<>();

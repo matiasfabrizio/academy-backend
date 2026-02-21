@@ -5,5 +5,6 @@ import java.util.UUID;
 public record ProfessorResDto(
     UUID id,
     String name,
-    String photoUrl
+    String photoUrl,
+    String description
 ) {}

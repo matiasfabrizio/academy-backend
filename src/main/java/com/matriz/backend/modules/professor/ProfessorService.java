@@ -40,6 +40,8 @@ public class ProfessorService {
                 .orElseThrow(() -> new ProfessorNotFoundException("Professor not found with id: " + id));
         professor.setName(updatedProfessor.name());
         professor.setPhotoUrl(updatedProfessor.photoUrl());
+        professor.setDescription(updatedProfessor.description());
+
         return professorMapper.toResDto(professorRepo.save(professor));
     }
 
