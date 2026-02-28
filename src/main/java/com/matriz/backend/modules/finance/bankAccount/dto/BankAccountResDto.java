@@ -1,6 +1,6 @@
 package com.matriz.backend.modules.finance.bankAccount.dto;
 
-import com.matriz.backend.shared.BankName;
+import com.matriz.backend.shared.enums.BankName;
 
 import java.util.UUID;
 

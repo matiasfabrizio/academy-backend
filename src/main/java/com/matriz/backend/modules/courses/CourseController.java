@@ -2,15 +2,20 @@ package com.matriz.backend.modules.courses;
 
 import com.matriz.backend.modules.courses.dto.CourseReqDto;
 import com.matriz.backend.modules.courses.dto.CourseResDto;
-import com.matriz.backend.shared.CourseType;
+import com.matriz.backend.shared.enums.CourseType;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 
@@ -21,11 +26,16 @@ import java.util.UUID;
 public class CourseController {
     private final CourseService courseService;
 
-    @PostMapping
+    @PostMapping(consumes = "multipart/form-data")
     @Operation(summary = "Create a new course", description = "Create a new course with the provided information. Returns the created course.")
-    public ResponseEntity<CourseResDto> create(@RequestBody @Valid CourseReqDto courseReqDto) {
+    public ResponseEntity<CourseResDto> create(
+            @RequestPart("courseReqDto")
+            @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            @Valid CourseReqDto courseReqDto,
+            @RequestPart MultipartFile photo
+    ) throws IOException {
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(courseService.createCourse(courseReqDto));
+                .body(courseService.createCourse(courseReqDto, photo));
     }
 
     @GetMapping
@@ -49,10 +59,16 @@ public class CourseController {
         return ResponseEntity.ok(courseService.getCourseByCode(code));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping(path = "/{id}", consumes = "multipart/form-data")
     @Operation(summary = "Update a specific course", description = "Updates the course with the specified ID.")
-    public ResponseEntity<CourseResDto> updateCourseById(@RequestBody @Valid CourseReqDto updatedCourse, @PathVariable UUID id) {
-        return ResponseEntity.ok(courseService.updateCourseById(updatedCourse, id));
+    public ResponseEntity<CourseResDto> updateCourseById(
+            @PathVariable UUID id,
+            @RequestPart(name = "updatedCourse")
+            @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
+            @Valid CourseReqDto updatedCourse,
+            @RequestPart MultipartFile photo
+    ) throws IOException {
+        return ResponseEntity.ok(courseService.updateCourseById(updatedCourse, id, photo));
     }
 
     @DeleteMapping("/{id}")

@@ -3,7 +3,7 @@ package com.matriz.backend.modules.enrollments;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.matriz.backend.modules.auth.AppUser;
 import com.matriz.backend.modules.schedules.Schedule;
-import com.matriz.backend.shared.EnrollmentStatus;
+import com.matriz.backend.shared.enums.EnrollmentStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

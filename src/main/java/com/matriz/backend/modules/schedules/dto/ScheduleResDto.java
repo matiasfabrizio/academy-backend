@@ -1,6 +1,6 @@
 package com.matriz.backend.modules.schedules.dto;
 
-import com.matriz.backend.shared.Mode;
+import com.matriz.backend.shared.enums.Mode;
 
 import java.time.DayOfWeek;
 import java.time.LocalTime;

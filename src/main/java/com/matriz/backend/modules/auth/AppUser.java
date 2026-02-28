@@ -2,7 +2,7 @@ package com.matriz.backend.modules.auth;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.matriz.backend.modules.enrollments.Enrollment;
-import com.matriz.backend.shared.Role;
+import com.matriz.backend.shared.enums.Role;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

@@ -2,8 +2,8 @@ package com.matriz.backend.modules.courses.dto;
 
 import com.matriz.backend.modules.professor.dto.ProfessorResDto;
 import com.matriz.backend.modules.schedules.dto.ScheduleResDto;
-import com.matriz.backend.shared.CourseType;
-import com.matriz.backend.shared.Tag;
+import com.matriz.backend.shared.enums.CourseType;
+import com.matriz.backend.shared.enums.Tag;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

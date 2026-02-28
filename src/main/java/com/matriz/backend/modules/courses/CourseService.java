@@ -8,15 +8,18 @@ import com.matriz.backend.modules.exceptions.CourseNotFoundException;
 import com.matriz.backend.modules.exceptions.ProfessorNotFoundException;
 import com.matriz.backend.modules.finance.holder.Holder;
 import com.matriz.backend.modules.finance.holder.HolderRepository;
+import com.matriz.backend.modules.images.ImageProcessingService;
 import com.matriz.backend.modules.professor.Professor;
 import com.matriz.backend.modules.professor.ProfessorRepository;
 import com.matriz.backend.modules.schedules.Schedule;
 import com.matriz.backend.modules.schedules.dto.ScheduleMapper;
-import com.matriz.backend.shared.CourseType;
+import com.matriz.backend.shared.enums.CourseType;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -30,8 +33,9 @@ public class CourseService {
     private final ProfessorRepository professorRepo;
     private final CourseMapper courseMapper;
     private final ScheduleMapper scheduleMapper;
+    private final ImageProcessingService imageProcessingService;
     
-    public CourseResDto createCourse(CourseReqDto reqDto) {
+    public CourseResDto createCourse(CourseReqDto reqDto, MultipartFile photo) throws IOException {
         Course courseEntity = courseMapper.toEntity(reqDto);
 
         if (reqDto.professorId() != null) {
@@ -49,6 +53,8 @@ public class CourseService {
         if (courseEntity.getSchedules() != null) {
             courseEntity.getSchedules().forEach(schedule -> schedule.setCourse(courseEntity));
         }
+
+        courseEntity.setPhotoUrl(imageProcessingService.processAndUpload(photo, reqDto.name(), false));
 
         Course savedCourse = courseRepo.save(courseEntity);
 
@@ -82,7 +88,7 @@ public class CourseService {
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con código: " + code));
     }
 
-    public CourseResDto updateCourseById(CourseReqDto reqDto, UUID id) {
+    public CourseResDto updateCourseById(CourseReqDto reqDto, UUID id, MultipartFile photo) throws IOException {
         Course courseToUpdate = courseRepo.findById(id)
                 .orElseThrow(() -> new CourseNotFoundException("Curso no encontrado con id: " + id));
 
@@ -90,7 +96,6 @@ public class CourseService {
         courseToUpdate.setName(reqDto.name());
         courseToUpdate.setStartDate(reqDto.startDate());
         courseToUpdate.setEndDate(reqDto.endDate());
-        courseToUpdate.setPhotoUrl(reqDto.photoUrl());
         courseToUpdate.setType(reqDto.type());
         courseToUpdate.setDescription(reqDto.description());
         courseToUpdate.setPrice(reqDto.price());
@@ -131,12 +136,15 @@ public class CourseService {
             });
         }
 
-        Course savedCourse = courseRepo.save(courseToUpdate);
+        imageProcessingService.handlePhotoUpdate(courseToUpdate, photo, reqDto.name(), false);
 
-        return courseMapper.toResDto(savedCourse);
+        return courseMapper.toResDto(courseRepo.save(courseToUpdate));
     }
 
     public void deleteCourseById(UUID id) {
+        Course course = courseRepo.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException("Course not found with id: " + id));
         courseRepo.deleteById(id);
+        imageProcessingService.deleteImage(course.getPhotoUrl());
     }
 }

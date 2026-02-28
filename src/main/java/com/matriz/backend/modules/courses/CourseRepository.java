@@ -1,6 +1,6 @@
 package com.matriz.backend.modules.courses;
 
-import com.matriz.backend.shared.CourseType;
+import com.matriz.backend.shared.enums.CourseType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

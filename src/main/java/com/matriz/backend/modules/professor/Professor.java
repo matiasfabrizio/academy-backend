@@ -2,6 +2,7 @@ package com.matriz.backend.modules.professor;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.matriz.backend.modules.courses.Course;
+import com.matriz.backend.shared.interfaces.PhotoOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Professor {
+public class Professor implements PhotoOwner {
 
     @Id
     @UuidGenerator
@@ -33,7 +34,7 @@ public class Professor {
 
     private String description;
 
-    @OneToMany(mappedBy = "professor")
+    @OneToMany(mappedBy = "professor", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("professor-courses")
     private Set<Course> courses = new LinkedHashSet<>();
 }

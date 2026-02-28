@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ProfessorMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "photoUrl", ignore = true)
     Professor toEntity(ProfessorReqDto professorReqDto);
 
     ProfessorResDto toResDto(Professor professor);

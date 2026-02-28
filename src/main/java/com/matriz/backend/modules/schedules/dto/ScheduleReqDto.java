@@ -1,6 +1,6 @@
 package com.matriz.backend.modules.schedules.dto;
 
-import com.matriz.backend.shared.Mode;
+import com.matriz.backend.shared.enums.Mode;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.DayOfWeek;
