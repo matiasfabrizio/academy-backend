@@ -63,10 +63,10 @@ public class CourseController {
     @Operation(summary = "Update a specific course", description = "Updates the course with the specified ID.")
     public ResponseEntity<CourseResDto> updateCourseById(
             @PathVariable UUID id,
-            @RequestPart(name = "updatedCourse")
+            @RequestPart(name = "courseReqDto")
             @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
             @Valid CourseReqDto courseReqDto,
-            @RequestPart MultipartFile photo
+            @RequestPart(name = "photo", required = false) MultipartFile photo
     ) throws IOException {
         return ResponseEntity.ok(courseService.updateCourseById(courseReqDto, id, photo));
     }
