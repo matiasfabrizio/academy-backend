@@ -1,8 +1,8 @@
 package com.matriz.backend.modules.courses.dto;
 
 import com.matriz.backend.modules.schedules.dto.ScheduleReqDto;
-import com.matriz.backend.shared.CourseType;
-import com.matriz.backend.shared.Tag;
+import com.matriz.backend.shared.enums.CourseType;
+import com.matriz.backend.shared.enums.Tag;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
@@ -34,10 +34,6 @@ public record CourseReqDto(
    @NotNull(message = "La fecha de fin es obligatoria")
    @Schema(example = "2024-07-15", description = "Format YYYY-MM-DD")
    LocalDate endDate,
-
-   @NotBlank(message = "La foto es obligatoria")
-   @Schema(example = "https://cdn.matriz.edu/img/math.png")
-   String photoUrl,
 
    @NotNull(message = "El tipo de curso es obligatorio")
    @Schema(example = "PRE", description = "Allowed types: PRE, REFUERZO, ADMISION, ESCOLAR")

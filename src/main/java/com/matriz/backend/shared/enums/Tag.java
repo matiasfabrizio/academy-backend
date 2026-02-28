@@ -1,4 +1,4 @@
-package com.matriz.backend.shared;
+package com.matriz.backend.shared.enums;
 
 public enum Tag {
     MATH,

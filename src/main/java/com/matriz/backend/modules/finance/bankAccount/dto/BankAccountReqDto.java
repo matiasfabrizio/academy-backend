@@ -1,6 +1,6 @@
 package com.matriz.backend.modules.finance.bankAccount.dto;
 
-import com.matriz.backend.shared.BankName;
+import com.matriz.backend.shared.enums.BankName;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
 

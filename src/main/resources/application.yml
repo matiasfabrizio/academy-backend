@@ -7,3 +7,14 @@ spring:
   flyway:
     enabled: true
     baseline-on-migrate: true
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 15MB
+cloud:
+  r2:
+    access-key: ${R2_ACCESS_KEY}
+    secret-key: ${R2_SECRET_KEY}
+    endpoint: ${R2_ENDPOINT}
+    bucket-name: ${R2_BUCKET_NAME}
+    public-url: ${R2_PUBLIC_URL}

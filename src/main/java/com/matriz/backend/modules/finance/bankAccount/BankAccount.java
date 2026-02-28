@@ -2,7 +2,7 @@ package com.matriz.backend.modules.finance.bankAccount;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.matriz.backend.modules.finance.holder.Holder;
-import com.matriz.backend.shared.BankName;
+import com.matriz.backend.shared.enums.BankName;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -5,8 +5,9 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.matriz.backend.modules.professor.Professor;
 import com.matriz.backend.modules.finance.holder.Holder;
 import com.matriz.backend.modules.schedules.Schedule;
-import com.matriz.backend.shared.CourseType;
-import com.matriz.backend.shared.Tag;
+import com.matriz.backend.shared.enums.CourseType;
+import com.matriz.backend.shared.enums.Tag;
+import com.matriz.backend.shared.interfaces.PhotoOwner;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,7 +29,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
+public class Course implements PhotoOwner {
 
     @Id
     @UuidGenerator

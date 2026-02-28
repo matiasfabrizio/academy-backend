@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.matriz.backend.modules.courses.Course;
 import com.matriz.backend.modules.enrollments.Enrollment;
-import com.matriz.backend.shared.Mode;
+import com.matriz.backend.shared.enums.Mode;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

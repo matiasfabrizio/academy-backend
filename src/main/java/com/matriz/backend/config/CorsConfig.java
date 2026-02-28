@@ -16,10 +16,9 @@ public class CorsConfig {
                 registry.addMapping("/**") // Apply to all endpoints
                         .allowedOriginPatterns(
                                 "http://localhost:3000",
-                                "https://academy-frontend-*.vercel.app",
-                                "https://grupomatriz.duckdns.org"
+                                "https://matriz.matiasprado.dev/"
                         )
-                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS") // Allowed HTTP verbs
+                        .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH") // Allowed HTTP verbs
                         .allowedHeaders("*")
                         .allowCredentials(true);
             }
