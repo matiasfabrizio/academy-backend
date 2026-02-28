@@ -65,10 +65,10 @@ public class CourseController {
             @PathVariable UUID id,
             @RequestPart(name = "updatedCourse")
             @Parameter(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE))
-            @Valid CourseReqDto updatedCourse,
+            @Valid CourseReqDto courseReqDto,
             @RequestPart MultipartFile photo
     ) throws IOException {
-        return ResponseEntity.ok(courseService.updateCourseById(updatedCourse, id, photo));
+        return ResponseEntity.ok(courseService.updateCourseById(courseReqDto, id, photo));
     }
 
     @DeleteMapping("/{id}")
