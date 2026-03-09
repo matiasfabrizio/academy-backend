@@ -13,7 +13,6 @@ import org.hibernate.annotations.UuidGenerator;
 import java.util.HashSet;
 import java.util.UUID;
 import java.util.Set;
-import java.util.List;
 
 @Entity
 @Getter
@@ -30,7 +29,7 @@ public class Holder {
     private String name;
 
     @Column(nullable = false)
-    private long phoneNumber;
+    private String phoneNumber;
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "holder")
     @JsonManagedReference("holder-bank-accounts")

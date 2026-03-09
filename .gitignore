@@ -47,3 +47,6 @@ nbdist/
 ### OS generated files ###
 .DS_Store
 Thumbs.db
+
+# Dev files
+src/main/java/com/matriz/backend/security/auth/DevAuthController.java
