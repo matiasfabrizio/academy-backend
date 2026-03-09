@@ -74,7 +74,8 @@ public class CourseService {
     }
 
     public CourseResDto getCourseById(UUID id) {
-        Course course = courseRepo.findById(id).orElseThrow();
+        Course course = courseRepo.findById(id)
+                .orElseThrow(() -> new CourseNotFoundException("Course not found with id: " + id));
         System.out.println(course.getProfessor().getName());
 
         return courseRepo.findById(id)

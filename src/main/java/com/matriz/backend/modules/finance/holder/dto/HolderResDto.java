@@ -8,7 +8,7 @@ import java.util.UUID;
 public record HolderResDto(
         UUID id,
         String name,
-        Long phoneNumber,
+        String phoneNumber,
         Set<BankAccountResDto> bankAccounts,
         Set<UUID> coursesIds
 ) {}

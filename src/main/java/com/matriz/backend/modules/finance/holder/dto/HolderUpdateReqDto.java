@@ -14,7 +14,7 @@ public record HolderUpdateReqDto(
 
         @NotNull(message = "El número de teléfono es obligatorio")
         @Schema(example = "996300605")
-        Long phoneNumber,
+        String phoneNumber,
 
         @Schema(description = "New bank accounts list")
         Set<BankAccountReqDto> bankAccounts

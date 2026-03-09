@@ -1,7 +1,7 @@
 package com.matriz.backend.modules.enrollments;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.matriz.backend.modules.auth.AppUser;
+import com.matriz.backend.security.appuser.AppUser;
 import com.matriz.backend.modules.schedules.Schedule;
 import com.matriz.backend.shared.enums.EnrollmentStatus;
 import jakarta.persistence.*;

@@ -1,20 +1,13 @@
-package com.matriz.backend.modules.auth;
+package com.matriz.backend.security.appuser;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.matriz.backend.modules.enrollments.Enrollment;
 import com.matriz.backend.shared.enums.Role;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import jakarta.validation.constraints.NotBlank;
+import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.ArrayList;
@@ -26,33 +19,47 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Table(name = "app_user")
+@Builder
 public class AppUser {
 
     @Id
     @UuidGenerator
     private UUID id;
 
+    @NotBlank
     @Column(nullable = false)
     private String firstName;
 
+    @NotBlank
     @Column(nullable = false)
     private String lastName;
 
-    @Column(nullable = false)
-    private long dni;
-
+    @NotBlank
     @Email
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(unique = true)
+    private String dni;
+
+    @Column(unique = true)
+    private String phoneNumber;
+
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
+    @Builder.Default
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Role role;
+    private Role role = Role.ROLE_INCOMPLETE_PROFILE;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference("student-enrollments")
     private List<Enrollment> enrollments = new ArrayList<>();
+
+    private String googleId;
+
+    @Builder.Default
+    private boolean profileComplete = false;
 }

@@ -1,0 +1,8 @@
+ALTER TABLE app_user
+    ALTER COLUMN dni DROP NOT NULL;
+
+ALTER TABLE app_user
+    ALTER COLUMN password DROP NOT NULL;
+
+ALTER TABLE app_user
+    ALTER COLUMN phone_number DROP NOT NULL;
