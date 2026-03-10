@@ -3,6 +3,7 @@ package com.matriz.backend.config;
 import com.matriz.backend.security.jwt.JwtAuthenticationFilter;
 import com.matriz.backend.security.oauth2.OAuth2LoginSuccessHandler;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
@@ -28,6 +29,9 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthFilter;
     private final OAuth2LoginSuccessHandler oauth2SuccessHandler;
 
+    @Value("${app.frontend.url}")
+    private String frontendUrl;
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http
@@ -42,8 +46,16 @@ public class SecurityConfig {
 
                 // Define URL Access Rules (The Floor Plan)
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/v1/auth/**", "/oauth2/**", "/login/**", "/error").permitAll()           // Allow login attempts
-                        .requestMatchers("/api/v1/courses", "/api/v1/courses/{id}", "/api/v1/courses/code/{code}", "/login/oauth2/code/**").permitAll()
+                        .requestMatchers(
+                                "/api/v1/auth/**",
+                                "/oauth2/**",
+                                "/login/**",
+                                "/error",
+                                "/api/v1/courses",
+                                "/api/v1/courses/{id}",
+                                "/api/v1/courses/code/{code}",
+                                "/api/v1/dev/**"
+                        ).permitAll()                               // Allow for public usage.
                         .requestMatchers("/api/v1/registration/**").hasAuthority("ROLE_INCOMPLETE_PROFILE") // Make only incomplete users finish registration
                         .anyRequest().hasAuthority("ROLE_ADMIN")
                 )
@@ -64,7 +76,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Removed the trailing slash on your production domain
-        configuration.setAllowedOrigins(List.of("http://localhost:3000", "https://matriz.matiasprado.dev"));
+        configuration.setAllowedOrigins(List.of(frontendUrl));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"));
         configuration.setAllowedHeaders(List.of("*"));
         configuration.setAllowCredentials(true); // Crucial for your HttpOnly cookies!

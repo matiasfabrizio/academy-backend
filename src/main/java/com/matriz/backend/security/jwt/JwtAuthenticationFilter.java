@@ -44,7 +44,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // 3. Extract email and check if user is already authenticated in this request
         userEmail = jwtService.extractUsername(jwt);
 
-        if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+        if (userEmail != null) {
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
 
             // 4. Validate token and check our "Gatekeeper" claim
