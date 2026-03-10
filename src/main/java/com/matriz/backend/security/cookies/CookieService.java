@@ -13,6 +13,9 @@ public class CookieService {
     @Value("${app.cookie.security}")
     private boolean security;
 
+    @Value("${app.cookie.domain}")
+    private String cookieDomain;
+
     private static final String COOKIE_NAME = "access_token";
 
     /**
@@ -22,9 +25,10 @@ public class CookieService {
         return ResponseCookie.from(COOKIE_NAME, jwt)
                 .httpOnly(true)     // Prevents JavaScript (Next.js) from reading the cookie, blocking XSS attacks
                 .secure(security)       // Ensures the cookie is only sent over HTTPS. **NOTE: Set to false if testing locally on HTTP**
+                .domain(cookieDomain)
                 .path("/")          // Makes the cookie accessible across the entire Matriz application
                 .maxAge(jwtExpirationMs / 1000) // maxAge expects seconds, so we divide your YML's milliseconds by 1000
-                .sameSite("Strict") // Blocks the cookie from being sent in cross-site requests, mitigating CSRF
+                .sameSite("Lax") // Blocks the cookie from being sent in cross-site requests, mitigating CSRF
                 .build();
     }
 
@@ -35,9 +39,10 @@ public class CookieService {
         return ResponseCookie.from(COOKIE_NAME, "")
                 .httpOnly(true)
                 .secure(security)
+                .domain(cookieDomain)
                 .path("/")
                 .maxAge(0)          // 0 seconds immediately invalidates and removes the cookie
-                .sameSite("Strict")
+                .sameSite("Lax")
                 .build();
     }
 }

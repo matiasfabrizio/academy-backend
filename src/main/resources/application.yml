@@ -7,6 +7,7 @@ app:
     url: ${FRONTEND_URL}
   cookie:
     security: ${COOKIE_SECURITY}
+    domain: ${COOKIE_DOMAIN}
 spring:
   application:
     name: backend
