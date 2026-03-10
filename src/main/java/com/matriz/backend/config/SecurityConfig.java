@@ -43,7 +43,7 @@ public class SecurityConfig {
                 // Define URL Access Rules (The Floor Plan)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/api/v1/auth/**", "/oauth2/**").permitAll()           // Allow login attempts
-                        .requestMatchers("/api/v1/courses", "/api/v1/courses/{id}", "/api/v1/courses/code/{code}").permitAll()
+                        .requestMatchers("/api/v1/courses", "/api/v1/courses/{id}", "/api/v1/courses/code/{code}", "/login/oauth2/code/**").permitAll()
                         .requestMatchers("/api/v1/registration/**").hasAuthority("ROLE_INCOMPLETE_PROFILE") // Make only incomplete users finish registration
                         .anyRequest().hasAuthority("ROLE_ADMIN")
                 )
